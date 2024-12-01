@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TableStoreRequest;
 
 class TableController extends Controller
 {
-    
+
     public function index()
     {
-        $tables = Table::all();
+        $tables = Table::paginate();
         return view('admin.tables.index', compact('tables'));
     }
 
@@ -25,59 +26,42 @@ class TableController extends Controller
         return view('admin.tables.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(TableStoreRequest $request)
     {
-        //
+        Table::create([
+            'name' => $request->name,
+            'guast_number' => $request->guast_number,
+            'status' => $request->status,
+            'location' => $request->location,
+        ]);
+
+        return to_route('admin.tables.index')->with('success', 'Table booking successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(Table $table)
     {
-        //
+        return view('admin.tables.edit', compact('table'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(TableStoreRequest $request, Table $table)
     {
-        //
+        $table->update($request->validated());
+        return to_route('admin.tables.index')->with('success', 'Table successfully updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Table $table)
     {
-        //
+        $table->delete();
+        return to_route('admin.tables.index')->with('delete', 'Booking successfully deleted.');
     }
 }

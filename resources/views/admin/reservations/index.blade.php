@@ -7,84 +7,115 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (Session::has('success'))
+                <div id="alert" class="flex items-center p-4 rounded-lg bg-yellow-100 dark:bg-yellow-100"
+                    role="alert">
+                    <div class="ms-3 text-md font-medium text-gray-600 dark:gray-600">
+                        <p>{{ Session::get('success') }}</p>
+                    </div>
+                    <button type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 text-gray-900 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 inline-flex items-center justify-center h-8 w-8 "
+                        data-dismiss-target="#alert" aria-label="Close">
+                        <span class="sr-only">Dismiss</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+            @endif
+            @if (Session::has('delete'))
+                <div id="alert" class="flex items-center p-4 rounded-lg bg-red-100 dark:bg-red-100" role="alert">
+                    <div class="ms-3 text-md font-medium text-gray-600 dark:gray-600">
+                        <p>{{ Session::get('delete') }}</p>
+                    </div>
+                    <button type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 text-gray-900 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 inline-flex items-center justify-center h-8 w-8 "
+                        data-dismiss-target="#alert" aria-label="Close">
+                        <span class="sr-only">Dismiss</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+            @endif
             <div class="flex justify-end m-2 p-2">
-                <a href="{{ route('admin.reservations.create') }}" class="focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-300">Add Reservation</a>
+                <a href="{{ route('admin.reservations.create') }}"
+                    class="focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-300">Add
+                    Reservation</a>
             </div>
             <div class="dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg">
                 <div class="p-12">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Product name
+                                        First Name
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Color
+                                        Last Name
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Category
+                                        Email
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Price
+                                        Phone
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <span class="sr-only">Edit</span>
+                                        Reservation Date
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Guest
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Table
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Actions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($reservations as $reservation)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Apple MacBook Pro 17"
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        Silver
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Laptop
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        $2999
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Microsoft Surface Pro
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        White
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Laptop PC
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        $1999
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Magic Mouse 2
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        Black
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Accessories
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        $99
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                                </tr>
+                                <td class="px-6 py-4">
+                                    {{ $reservation->first_name }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $reservation->last_name }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $reservation->email }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $reservation->tel_number }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{  \Carbon\Carbon::parse($reservation->res_date)->format('d-M-Y  g:i:s A' ) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $reservation->guast_number }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $reservation->table->name }}
+                                </td>
+                                <td class="py-4 text-right flex">
+                           
+                                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="text-gray-900 bg-gray-800 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Edit</a>
+
+                                    <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
+                                    </form>
+                            </td>
+                            </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

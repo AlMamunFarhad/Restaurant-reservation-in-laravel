@@ -12,13 +12,14 @@
                     to Tables</a>
             </div>
             <div class="dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg">
-                <form action="{{ route('admin.tables.store') }}" method="POST">
+                <form action="{{ route('admin.tables.update', $table->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="p-12">
                         <div class="mb-6">
-                            <label for="default-input"
+                            <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input name="name" id="name" type="text"
+                            <input name="name" id="name" type="text" value="{{ $table->name }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @if ($errors->has('name'))
                                 <div class="text-red-600 text-md mt-2">
@@ -32,9 +33,16 @@
                             <select name="status" id="status"
                                 class="form-multiselect bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 @foreach (\App\Enums\TableStatus::cases() as $status)
-                                    <option value="{{ $status->value }}">{{ $status->name }}</option>
+                                    <option value="{{ $status->value }}" @selected($table->status == $status)>
+                                        {{ $status->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @if ($errors->has('status'))
+                                <div class="text-red-600 text-md mt-2">
+                                    {{ $errors->first('status') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="mb-6">
                             <label for="location"
@@ -42,16 +50,23 @@
                             <select name="location" id="location"
                                 class="form-multiselect bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 @foreach (\App\Enums\TableLocation::cases() as $location)
-                                    <option value="{{ $location->value }}">{{ $location->name }}</option>
+                                    <option value="{{ $location->value }}" @selected($table->location == $location)>
+                                        {{ $location->name }}
+                                    </option>
                                 @endforeach
-
                             </select>
+                            @if ($errors->has('location'))
+                                <div class="text-red-600 text-md mt-2">
+                                    {{ $errors->first('location') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="mb-6">
                             <label for="guast_number"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Guast
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Guest
                                 Number</label>
                             <input name="guast_number" id="guast_number" type="number"
+                                value="{{ $table->guast_number }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @if ($errors->has('guast_number'))
                                 <div class="text-red-600 text-md mt-2">
@@ -61,7 +76,7 @@
                         </div>
                         <div class="flex py-4">
                             <button type="submit"
-                                class="focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-300">Submit</button>
+                                class="focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-300">Update</button>
                         </div>
                 </form>
             </div>

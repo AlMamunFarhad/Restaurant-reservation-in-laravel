@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CategoryStoreRequest;
+use League\Flysystem\StorageAttributes;
 
 class CategoryController extends Controller
 {
-    
+
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(5);
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -25,15 +28,18 @@ class CategoryController extends Controller
         return view('admin.categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $image = $request->file('image')->store('public/categories');
+
+        Category::create([
+            'name' => $request->name,
+            'image' => $image,
+            'description' => $request->description,
+        ]);
+
+        return to_route('admin.categories.index')->with('success', 'Category created Successfully.');
     }
 
     /**
@@ -53,9 +59,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -65,10 +71,33 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+
+    public function update(Request $request, Category $category)
     {
-        //
+
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
+        $image = $category->image;
+        if ($request->hasFile('image')) {
+            if ($category->image && Storage::exists($category->image)) {
+                Storage::delete($category->image);
+            }
+            $image = $request->file('image')->store('public/categories');
+        }
+
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $image,
+        ]);
+
+        return to_route('admin.categories.index')->with('success', 'Category successfully updated.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -76,8 +105,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        Storage::delete($category->image);
+        $category->delete();
+
+        return to_route('admin.categories.index')->with('delete', 'Category successfully deleted.');
+
     }
 }
