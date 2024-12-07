@@ -62,6 +62,7 @@ class TableController extends Controller
     public function destroy(Table $table)
     {
         $table->delete();
+        $table->reservations()->delete();
         return to_route('admin.tables.index')->with('delete', 'Booking successfully deleted.');
     }
 }

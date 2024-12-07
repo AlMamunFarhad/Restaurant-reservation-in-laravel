@@ -6,41 +6,6 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (Session::has('success'))
-                <div id="alert" class="flex items-center p-4 rounded-lg bg-yellow-100 dark:bg-yellow-100"
-                    role="alert">
-                    <div class="ms-3 text-md font-medium text-gray-600 dark:gray-600">
-                        <p>{{ Session::get('success') }}</p>
-                    </div>
-                    <button type="button"
-                        class="ms-auto -mx-1.5 -my-1.5 text-gray-900 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 inline-flex items-center justify-center h-8 w-8 "
-                        data-dismiss-target="#alert" aria-label="Close">
-                        <span class="sr-only">Dismiss</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                    </button>
-                </div>
-            @endif
-            @if (Session::has('delete'))
-                <div id="alert" class="flex items-center p-4 rounded-lg bg-red-100 dark:bg-red-100" role="alert">
-                    <div class="ms-3 text-md font-medium text-gray-600 dark:gray-600">
-                        <p>{{ Session::get('delete') }}</p>
-                    </div>
-                    <button type="button"
-                        class="ms-auto -mx-1.5 -my-1.5 text-gray-900 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 inline-flex items-center justify-center h-8 w-8 "
-                        data-dismiss-target="#alert" aria-label="Close">
-                        <span class="sr-only">Dismiss</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                    </button>
-                </div>
-            @endif
             <div class="flex justify-end m-2 p-2">
                 <a href="{{ route('admin.categories.create') }}"
                     class="focus:outline-none text-dark bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-300">Add

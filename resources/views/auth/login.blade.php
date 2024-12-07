@@ -1,8 +1,9 @@
 <x-guest-layout>
+    <div class="container mx-auto mt-16">
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="w-96 mx-auto shadow-md p-5">
         @csrf
 
         <!-- Email Address -->
@@ -44,4 +45,5 @@
             </x-primary-button>
         </div>
     </form>
+</div>
 </x-guest-layout>

@@ -27,9 +27,13 @@ class TimeBetween implements Rule
     public function passes($attribute, $value)
     {
         $pickupDate = Carbon::parse($value);
-        $lastDate = Carbon::now()->addWeek();
+        $picTime = Carbon::createFromTime($pickupDate->hour, $pickupDate->minute, $pickupDate->second);
 
-        return $value >= now() && $value <= $lastDate;
+        // when the restaurant Open
+        $earliestTime = Carbon::createFromTimeString('10:00.00');
+        $closeTime = Carbon::createFromTimeString('22:00.00');
+
+        return $picTime->between($earliestTime,$closeTime) ? true : false;
     }
 
     /**
@@ -39,6 +43,6 @@ class TimeBetween implements Rule
      */
     public function message()
     {
-        return 'Please Choose the date between a week from now.';
+        return 'Please Choose the time between 10:AM 10:PM';
     }
 }
